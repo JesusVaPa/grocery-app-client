@@ -1,0 +1,9 @@
+input {
+    width : 90%;
+    border : 0;
+    border-bottom : 1px solid #CCC;
+    margin-bottom: 32px;
+    padding: 16px 0 16px 16px;
+    appearance: none;
+    outline: none;
+}
