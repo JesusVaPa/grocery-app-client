@@ -22,6 +22,9 @@ function reducer(itemList, action){
 				return item_map.id !== item_id;
 			});
 		}
+		case 'init': {
+			return action.body;
+		}
 		default : {
 			throw new Error('Unknown action ' + action.type);
 		}
