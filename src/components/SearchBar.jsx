@@ -1,9 +1,8 @@
-import { useState } from "react";
 import '../CSS/SearchBar.css';
+import httpReq from '../utils/httpReq'
 
 // eslint-disable-next-line react/prop-types
 function SearchBar({dispatch}) {
-	const [itemId, setItemId ] = useState ( 0 );
 	
 	function handleKeyDown(event){
 		let 
@@ -13,14 +12,19 @@ function SearchBar({dispatch}) {
 	
 		if(key_name==='Enter'){
 			input_value=event.target.value;
-			dispatch({
-				type: 'add',
-				body: {
-					id:'c'+itemId,
-					name: input_value
-				}
-			});
-		setItemId (itemId + 1);
+
+			httpReq('post', '/item/create', {name: input_value})
+				.then(item_map => {
+								
+					dispatch({
+						type: 'add',
+						body: item_map
+					});
+				})
+				.catch(error => {
+					console.error(error);
+				})
+			;
 		event.target.value = '';
 		}
 	}
