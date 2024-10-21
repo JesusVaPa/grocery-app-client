@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import '../CSS/SearchBar.css';
 import httpReq from '../utils/httpReq';
-import DatePickerWidget from '../utils/DatePickerWidget.jsx'; 
+import DatePickerComponent from '../utils/DatePickerWidget.jsx'; 
 
 // eslint-disable-next-line react/prop-types
 function SearchBar({ dispatch }) {
@@ -41,18 +41,18 @@ function SearchBar({ dispatch }) {
       />
       <div className="date-picker-wrapper">
         <span className="date-label">And when?...</span>
-        <DatePickerWidget
+        <DatePickerComponent
           selectedDate={selectedDate}
           onChange={setSelectedDate}
           isOpen={isCalendarOpen}
           toggleCalendar={() => setIsCalendarOpen(!isCalendarOpen)}
         />
+        {selectedDate && (
+          <span className="date-selected">
+            {selectedDate.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}        
+          </span>
+        )}
       </div>
-      {selectedDate && (
-        <span className="date-selected">
-          {selectedDate.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}        
-        </span>
-      )}
     </div>
   );
 }
