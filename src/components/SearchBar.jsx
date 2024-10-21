@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { FaCalendarAlt } from 'react-icons/fa';  
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import '../CSS/SearchBar.css';
 import httpReq from '../utils/httpReq';
+import DatePickerWidget from '../utils/DatePickerWidget.jsx'; 
 
 // eslint-disable-next-line react/prop-types
 function SearchBar({ dispatch }) {
@@ -30,38 +28,30 @@ function SearchBar({ dispatch }) {
       setSelectedDate(new Date()); 
     }
   }
-  
-	return (
+
+  return (
     <div className="search-bar-container"> 
       <input
         className="search-bar"
         type="text"
-        placeholder="What would you like to buy today?"
+        placeholder="What would you like to buy?"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handleKeyDown}
       />
-      <button
-        onClick={() => setIsCalendarOpen(!isCalendarOpen)}  
-        style={{ background: 'none', border: 'none', cursor: 'pointer', marginLeft: '10px' }}
-      >
-        <FaCalendarAlt size={24} /> 
-      </button>
+      <div className="date-picker-wrapper">
+        <span className="date-label">And when?...</span>
+        <DatePickerWidget
+          selectedDate={selectedDate}
+          onChange={setSelectedDate}
+          isOpen={isCalendarOpen}
+          toggleCalendar={() => setIsCalendarOpen(!isCalendarOpen)}
+        />
+      </div>
       {selectedDate && (
-        <span style={{ marginLeft: '10px' }}>
+        <span className="date-selected">
           {selectedDate.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}        
         </span>
-      )}
-      {isCalendarOpen && (
-        <DatePicker
-          selected={selectedDate}
-          onChange={(date) => {
-            setSelectedDate(date);
-            setIsCalendarOpen(false);  
-          }}
-          dateFormat="dd/MM/yyyy"
-          inline 
-        />
       )}
     </div>
   );
