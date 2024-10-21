@@ -18,14 +18,17 @@
 	function handleKeyDown(event){
 		let 
 			key_name= event.key,
-			input_value, item_id       
+			input_value, 
+			item_id,
+			item_date       
 		;
 
 		if(key_name === 'Enter'){
 			input_value = event.target.value;
 			item_id = itemMap.id;
+			item_date = itemMap.date
 
-			httpReq('post', '/item/update/' + item_id, { name: input_value } )
+			httpReq('post', '/item/update/' + item_id, { name: input_value, date: item_date } )
 				// eslint-disable-next-line no-unused-vars
 				.then(() => {
 					
@@ -33,8 +36,9 @@
 						type : 'update',
 						body : {
 								id: item_id,
-								name: input_value
-						}					
+								name: input_value,
+								date: item_date,
+						},					
 					});
 				})
 				.catch(error => {
