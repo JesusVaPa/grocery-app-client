@@ -8,7 +8,7 @@ import GroceryList from './components/GroceryList';
 function App() {
   const [itemList, dispatch] = useReducer(reducer, []);
 
-  useEffect(function () {
+  useEffect(() => {
     httpReq('get', '/item/list')
       .then(item_list => {
         dispatch({ type: 'init', body: item_list });
@@ -35,16 +35,15 @@ function App() {
 
   return (
     <>
-      <h1> My Grocery App </h1>
-      <SearchBar dispatch={dispatch} />
-      {
-        itemList.length > 0 &&
+      <h1>My Grocery App</h1>
+      <SearchBar dispatch={dispatch}/> 
+      {itemList.length > 0 && (
         <GroceryList
           itemList={itemList}
           dispatch={dispatch}
           onSortChange={handleSortChange} 
         />
-      }
+      )}
     </>
   );
 }
