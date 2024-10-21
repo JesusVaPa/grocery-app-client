@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
 import GroceryItem from './GroceryItem';
-import SortWidget from './SortWidget'; // Asegúrate de importar el nuevo componente
+import SortWidget from './SortWidget'; 
 import '../CSS/GroceryList.css';
 
-// eslint-disable-next-line react/prop-types
 function GroceryList({ itemList, dispatch, onSortChange }) {
   return (
     <>
