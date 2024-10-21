@@ -1,25 +1,43 @@
-input {
-    width : 90%;
-    border : 0;
-    border-bottom : 1px solid #CCC;
-    margin-bottom: 32px;
-    padding: 16px 0 16px 16px;
-    appearance: none;
-    outline: none;
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%; 
 }
 
-button {
-    padding: 0;
-    margin-bottom: 1.7rem;
+.search-bar {
+  flex: 1;
+  min-width: 250px; 
+  padding: 1rem; 
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.search-bar:focus {
+  outline: none;
+  border-color: #007bff;
+}
+  
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
   }
   
-button:hover {
-    color: #007bff; 
-}
-
-span {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 1.7rem;
-}
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  span {
+    margin-left: 10px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .react-datepicker {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
   

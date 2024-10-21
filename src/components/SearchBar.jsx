@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FaCalendarAlt } from 'react-icons/fa';  // Importar el ícono de calendario
+import { FaCalendarAlt } from 'react-icons/fa';  
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../CSS/SearchBar.css';
@@ -30,9 +30,9 @@ function SearchBar({ dispatch }) {
       setSelectedDate(new Date()); 
     }
   }
-
-  return (
-    <div style={{ display: 'flex', alignItems: 'center' }}> 
+  
+	return (
+    <div className="search-bar-container"> 
       <input
         className="search-bar"
         type="text"
