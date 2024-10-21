@@ -1,0 +1,12 @@
+.date-picker-container {
+    position: relative; 
+  }
+  
+  .calendar-overlay {
+    position: absolute;
+    top: 100%; 
+    left: 0; 
+    z-index: 1000; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  }
+  
