@@ -1,0 +1,38 @@
+.grocery-item {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 5px 0; 
+    margin: 0;
+  }
+  
+  .item-label {
+    flex: 2;
+    margin-right: 10px;
+    line-height: 1; 
+  }
+  
+  .edit-input {
+    flex: 2; 
+    margin-bottom: 0;
+  }
+  
+  .calendar-container {
+    flex: 1; 
+    margin: 0;
+    display: flex; 
+    align-items: center;
+  }
+  
+  .remove-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 0;
+  }
+  
+  .react-datepicker {
+    margin: 0; 
+    padding: 0; 
+  }
+  

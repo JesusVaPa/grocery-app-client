@@ -1,87 +1,101 @@
-	/* eslint-disable react/prop-types */
-	import { useState } from "react";
-	import httpReq from '../utils/httpReq'
+/* eslint-disable react/prop-types */
+import { useState } from "react";
+import httpReq from '../utils/httpReq';
+import DatePickerWidget from '../utils/DatePickerWidget.jsx'; 
+import '../CSS/GroceryItem.css'; 
+function GroceryItem({ itemMap, dispatch }) {
+  const [isUpdateMode, setIsUpdateMode] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date(itemMap.date)); 
 
+  function handleDoubleClick() {
+    setIsUpdateMode(true);
+  }
 
-	function GroceryItem({ itemMap, dispatch}){
+  function handleBlur() {
+    setIsUpdateMode(false);
+  }
 
-	const [isUpdateMode, setIsUpdateMode] = useState(false);
+  function handleKeyDown(event) {
+    let key_name = event.key;
+    let input_value, item_id;
 
-	function handleDoubleClick(){
-		setIsUpdateMode(true);
-	}
+    if (key_name === 'Enter') {
+      input_value = event.target.value;
+      item_id = itemMap.id;
 
-	function handleBlur(){
-		setIsUpdateMode(false);
-	}
+      httpReq('post', '/item/update/' + item_id, { name: input_value, date: selectedDate })
+        .then(() => {
+          dispatch({
+            type: 'update',
+            body: {
+              id: item_id,
+              name: input_value,
+              date: selectedDate,
+            },
+          });
+        })
+        .catch(error => {
+          console.error(error);
+        });
 
-	function handleKeyDown(event){
-		let 
-			key_name= event.key,
-			input_value, 
-			item_id,
-			item_date       
-		;
+      setIsUpdateMode(false);
+      setIsCalendarOpen(false); 
+    }
+  }
 
-		if(key_name === 'Enter'){
-			input_value = event.target.value;
-			item_id = itemMap.id;
-			item_date = itemMap.date
+  function handleClickRemove() {
+    httpReq('get', '/item/delete/' + itemMap.id)
+      .then(() => {
+        dispatch({
+          type: 'remove',
+          body: { id: itemMap.id }
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
 
-			httpReq('post', '/item/update/' + item_id, { name: input_value, date: item_date } )
-				.then(() => {
-					
-					dispatch({
-						type : 'update',
-						body : {
-								id: item_id,
-								name: input_value,
-								date: item_date,
-						},					
-					});
-				})
-				.catch(error => {
-					console.error(error);
-				})
-			;
-			setIsUpdateMode(false);
-		}      
-	}
+  function toggleCalendar() {
+    setIsCalendarOpen(!isCalendarOpen);
+  }
 
-	function handleClickRemove(){
-		httpReq('get', '/item/delete/' + itemMap.id)
-				.then(() => {
-					dispatch({
-						type : 'remove',
-						body : {id: itemMap.id}
-					});		
-				})
-				.catch(error => {
-					console.error(error);
-				})
-			;
-	}
+  function handleDateChange(date) {
+    setSelectedDate(date); 
+  }
 
-		return (
-			<li>				
-				<label 
-					onDoubleClick={handleDoubleClick}
-				>{itemMap.name}</label>
-				{
-					isUpdateMode 
-					&&
-					<input
-						defaultValue={itemMap.name}
-						onKeyDown={handleKeyDown}
-						onBlur={ handleBlur }
-						autoFocus
-					/>
-				} 
-				<button
-					onClick={ handleClickRemove }
-				></button>				
-			</li>
-		);
-	}
+  return (
+    <li className="grocery-item">
+      <label 
+        className="item-label"
+        onDoubleClick={handleDoubleClick}
+      >
+        {itemMap.name}
+      </label>
+      {isUpdateMode && (
+        <input
+          className="edit-input"
+          defaultValue={itemMap.name}
+          onKeyDown={handleKeyDown}
+          onBlur={handleBlur}
+          autoFocus
+        />
+      )}
+      <div className="calendar-container">
+        <DatePickerWidget
+          selectedDate={selectedDate}
+          onChange={handleDateChange}
+          isOpen={isCalendarOpen} 
+          toggleCalendar={toggleCalendar}
+        />
+      </div>
+      <button
+        className="remove-btn"
+        onClick={handleClickRemove}
+      ></button>
+    </li>
+  );
+}
 
-	export default GroceryItem;
+export default GroceryItem;
