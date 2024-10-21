@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
+import '../css/SortWidget.css'
 
 // eslint-disable-next-line react/prop-types
 function SortWidget({ onSortChange }) {
@@ -8,8 +9,8 @@ function SortWidget({ onSortChange }) {
       <label htmlFor="sort">Sort by:</label>
       <select id="sort" onChange={(e) => onSortChange(e.target.value)}>
         <option value="alphabetical">Alphabetically</option>
-        <option value="date-asc">Date Ascending</option>
-        <option value="date-desc">Date Descending</option>
+        <option value="date-asc">Date ↑</option>
+        <option value="date-desc">Date ↓</option>
       </select>
     </div>
   );
