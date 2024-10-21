@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import '../CSS/SearchBar.css';
+import '../css/SearchBar.css';
 import httpReq from '../utils/httpReq';
 import DatePickerComponent from '../utils/DatePickerWidget.jsx'; 
 

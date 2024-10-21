@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import GroceryItem from './GroceryItem';
-import '../CSS/GroceryList.css';
+import '../css/GroceryList.css';
 
 function GroceryList({ itemList, dispatch }) {
   return (

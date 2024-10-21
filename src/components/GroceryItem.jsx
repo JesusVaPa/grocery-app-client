@@ -2,7 +2,7 @@
 import { useState } from "react";
 import httpReq from '../utils/httpReq';
 import DatePickerWidget from '../utils/DatePickerWidget.jsx'; 
-import '../CSS/GroceryItem.css'; 
+import '../css/GroceryItem.css'; 
 function GroceryItem({ itemMap, dispatch }) {
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
