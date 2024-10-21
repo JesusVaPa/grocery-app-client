@@ -1,40 +1,70 @@
+import { useState } from 'react';
+import { FaCalendarAlt } from 'react-icons/fa';  // Importar el ícono de calendario
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import '../CSS/SearchBar.css';
-import httpReq from '../utils/httpReq'
+import httpReq from '../utils/httpReq';
 
 // eslint-disable-next-line react/prop-types
-function SearchBar({dispatch}) {
-	
-	function handleKeyDown(event){
-		let 
-			key_name=event.key,
-			input_value
-		;
-	
-		if(key_name==='Enter'){
-			input_value=event.target.value;
+function SearchBar({ dispatch }) {
+  const [inputValue, setInputValue] = useState('');
+  const [selectedDate, setSelectedDate] = useState(null); 
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false); 
 
-			httpReq('post', '/item/create', {name: input_value})
-				.then(item_map => {
-								
-					dispatch({
-						type: 'add',
-						body: item_map
-					});
-				})
-				.catch(error => {
-					console.error(error);
-				})
-			;
-		event.target.value = '';
-		}
-	}
- return (
-    <input
-    className="search-bar"
-    type="text"
-    placeholder="What would you like to buy today?"
-    onKeyDown={handleKeyDown}
+  function handleKeyDown(event) {
+    let key_name = event.key;
+
+    if (key_name === 'Enter') {
+      httpReq('post', '/item/create', { name: inputValue, date: selectedDate }) 
+        .then(item_map => {
+          dispatch({
+            type: 'add',
+            body: item_map
+          });
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+      setInputValue('');
+      setSelectedDate(null); 
+    }
+  }
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center' }}> 
+      <input
+        className="search-bar"
+        type="text"
+        placeholder="What would you like to buy today?"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
- );
+      <button
+        onClick={() => setIsCalendarOpen(!isCalendarOpen)}  
+        style={{ background: 'none', border: 'none', cursor: 'pointer', marginLeft: '10px' }}
+      >
+        <FaCalendarAlt size={24} /> 
+      </button>
+	  {selectedDate && (
+        <span style={{ marginLeft: '10px' }}>
+ 		{selectedDate.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}        
+		</span>
+      )}
+      {isCalendarOpen && (
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date) => {
+            setSelectedDate(date);
+            setIsCalendarOpen(false);  
+          }}
+          dateFormat="dd/MM/yyyy"
+          inline 
+        />
+      )}
+    </div>
+  );
 }
+
 export default SearchBar;

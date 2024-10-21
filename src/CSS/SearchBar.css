@@ -7,3 +7,19 @@ input {
     appearance: none;
     outline: none;
 }
+
+button {
+    padding: 0;
+    margin-bottom: 1.7rem;
+  }
+  
+button:hover {
+    color: #007bff; 
+}
+
+span {
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 1.7rem;
+}
+  
