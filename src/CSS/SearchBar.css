@@ -7,11 +7,25 @@
 
 .search-bar {
   flex: 1;
-  min-width: 250px; 
+  min-width: 200px; 
   padding: 1rem; 
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+}
+
+.date-picker-wrapper {
+  position: relative; 
+  display: flex;
+  flex-direction: column; 
+}
+
+.date-label{
+  font-size: 0.7rem;
+}
+
+.date-selected {
+  font-size: 0.8rem;
 }
 
 .search-bar:focus {
