@@ -8,7 +8,7 @@ import httpReq from '../utils/httpReq';
 // eslint-disable-next-line react/prop-types
 function SearchBar({ dispatch }) {
   const [inputValue, setInputValue] = useState('');
-  const [selectedDate, setSelectedDate] = useState(null); 
+  const [selectedDate, setSelectedDate] = useState(new Date()); 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false); 
 
   function handleKeyDown(event) {
@@ -27,7 +27,7 @@ function SearchBar({ dispatch }) {
         });
 
       setInputValue('');
-      setSelectedDate(null); 
+      setSelectedDate(new Date()); 
     }
   }
 
@@ -47,10 +47,10 @@ function SearchBar({ dispatch }) {
       >
         <FaCalendarAlt size={24} /> 
       </button>
-	  {selectedDate && (
+      {selectedDate && (
         <span style={{ marginLeft: '10px' }}>
- 		{selectedDate.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}        
-		</span>
+          {selectedDate.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}        
+        </span>
       )}
       {isCalendarOpen && (
         <DatePicker
