@@ -29,7 +29,6 @@
 			item_date = itemMap.date
 
 			httpReq('post', '/item/update/' + item_id, { name: input_value, date: item_date } )
-				// eslint-disable-next-line no-unused-vars
 				.then(() => {
 					
 					dispatch({
@@ -51,7 +50,6 @@
 
 	function handleClickRemove(){
 		httpReq('get', '/item/delete/' + itemMap.id)
-				// eslint-disable-next-line no-unused-vars
 				.then(() => {
 					dispatch({
 						type : 'remove',
