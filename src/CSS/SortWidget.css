@@ -1,8 +1,14 @@
 .sort-widget {
-    margin: 1em 0;
-  }
-  
-  .sort-widget label {
-    margin-right: 0.5em;
-  }
-  
+  display: flex;
+  align-items: center; 
+  margin: 10px; 
+}
+
+.sort-widget label {
+  margin-right: 10px; 
+}
+
+.sort-widget select {
+  padding: 5px; 
+  font-size: 1rem; 
+}
