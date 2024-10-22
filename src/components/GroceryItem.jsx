@@ -17,8 +17,11 @@ function GroceryItem({ itemMap, dispatch }) {
   }
 
   function handleKeyDown(event) {
-    let key_name = event.key;
-    let input_value, item_id;
+    let 
+      key_name = event.key,
+      input_value, 
+      item_id
+    ;
 
     if (key_name === 'Enter') {
       input_value = event.target.value;
@@ -58,11 +61,31 @@ function GroceryItem({ itemMap, dispatch }) {
   }
 
   function toggleCalendar() {
+    setIsUpdateMode(true);
     setIsCalendarOpen(!isCalendarOpen);
   }
 
   function handleDateChange(date) {
+    let item_id;
+
     setSelectedDate(date); 
+
+    httpReq('post', '/item/update/' + item_id, { date: selectedDate })
+        .then(() => {
+          dispatch({
+            type: 'update',
+            body: {
+              id: item_id,
+              date: selectedDate,
+            },
+          });
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+      setIsUpdateMode(false);
+      setIsCalendarOpen(false); 
   }
 
   return (
