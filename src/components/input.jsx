@@ -5,9 +5,10 @@ function Input({ onAddItem }) {
   const [newItem, setNewItem] = useState('');
 
   const handleAddItem = () => {
-    if (newItem.trim()) {
-      onAddItem(newItem);  
-      setNewItem('');      
+    const trimmedItem = newItem.trim();
+    if (trimmedItem) {
+      onAddItem(trimmedItem);
+      setNewItem('');
     }
   };
 
