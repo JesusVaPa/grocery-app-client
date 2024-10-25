@@ -7,7 +7,7 @@ import GroceryList from './components/GroceryList';
 
 function App() {
   const [itemList, dispatch] = useReducer(reducer, []);
-  const [viewMode, setViewMode] = useState('byDate'); 
+  const [viewMode, setViewMode] = useState('all'); 
   const [filterText, setFilterText] = useState('');
   const [sortOrder, setSortOrder] = useState('ascending'); 
 

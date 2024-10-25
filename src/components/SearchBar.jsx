@@ -6,7 +6,7 @@ import httpReq from '../utils/httpReq';
 function SearchBar({ dispatch, setViewMode, setFilterText }) {
   const [inputValue, setInputValue] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [viewOption, setViewOption] = useState('byDate');
+  const [viewOption, setViewOption] = useState('all');
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
