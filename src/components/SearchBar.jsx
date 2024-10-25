@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import '../css/SearchBar.css';
 import httpReq from '../utils/httpReq';
+import DatePickerWidget from '../utils/DatePickerWidget'; 
 
 // eslint-disable-next-line react/prop-types
 function SearchBar({ dispatch, setViewMode, setFilterText }) {
   const [inputValue, setInputValue] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewOption, setViewOption] = useState('all');
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false); 
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -34,6 +36,10 @@ function SearchBar({ dispatch, setViewMode, setFilterText }) {
     setSelectedDate(new Date());
   };
 
+  const toggleCalendar = () => {
+    setIsCalendarOpen((prev) => !prev); 
+  };
+
   return (
     <>
       <div className="search-bar-container">
@@ -44,7 +50,13 @@ function SearchBar({ dispatch, setViewMode, setFilterText }) {
           value={inputValue}
           onChange={(event) => setInputValue(event.target.value)}
           onKeyDown={handleKeyDown} 
-        />       
+        />
+        <DatePickerWidget 
+          selectedDate={selectedDate}
+          onChange={setSelectedDate}
+          isOpen={isCalendarOpen}
+          toggleCalendar={toggleCalendar}
+        />
       </div>
       <div className="view-selector">
         <label htmlFor="view">View:</label>

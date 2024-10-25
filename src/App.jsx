@@ -34,16 +34,18 @@ function App() {
   return (
     <>
       <h1>My Grocery App</h1>
+
       <SearchBar 
         dispatch={dispatch} 
         setViewMode={setViewMode} 
         setFilterText={setFilterText}
         setSortOrder={setSortOrder} 
       />
-      {viewMode === 'byDate' && (<div className="sort-buttons">
+
+      <div className="sort-buttons">
         <button onClick={() => setSortOrder('ascending')}>Sort Ascending</button>
         <button onClick={() => setSortOrder('descending')}>Sort Descending</button>
-      </div>)}
+      </div>
 
       {filteredItems.length > 0 && (
         <GroceryList

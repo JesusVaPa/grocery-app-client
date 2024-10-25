@@ -8,6 +8,7 @@ function GroceryItem({ itemMap, dispatch, viewMode }) {
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date(itemMap.date)); 
+  const [currentName, setCurrentName] = useState(itemMap.name); 
 
   function handleDoubleClick() {
     setIsUpdateMode(true);
@@ -26,23 +27,21 @@ function GroceryItem({ itemMap, dispatch, viewMode }) {
       input_value = event.target.value;
       item_id = itemMap.id;
 
-      httpReq('post', '/item/update/' + item_id, { name: input_value, date: selectedDate })
+      httpReq('post', '/item/update/' + item_id, { name: input_value })
         .then(() => {
           dispatch({
             type: 'update',
             body: {
               id: item_id,
               name: input_value,
-              date: selectedDate,
             },
-          });
+          });          
         })
         .catch(error => {
           console.error(error);
         });
-
+      setCurrentName(input_value);
       setIsUpdateMode(false);
-      setIsCalendarOpen(false);
     }
   }
 
@@ -60,15 +59,38 @@ function GroceryItem({ itemMap, dispatch, viewMode }) {
   }
 
   function toggleCalendar() {
-    setIsUpdateMode(true);
     setIsCalendarOpen(!isCalendarOpen);
   }
 
-  function handleDateChange(date) {
-    setSelectedDate(date);  
-    setIsCalendarOpen(false);
+  function formatDate(date) {
+    const day = String(date.getDate()).padStart(2, '0'); 
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   }
+  
+  function handleDateChange(date) {
+    const item_id = itemMap.id;
+    const formattedDate = date.toISOString().split('T')[0];
 
+    httpReq('post', '/item/update/' + item_id, { date: formattedDate })
+      .then(() => {
+        dispatch({
+          type: 'update',
+          body: {
+            id: item_id,
+            name: currentName, 
+            date: formattedDate,
+          },
+        });
+        setSelectedDate(date);  
+        setIsCalendarOpen(false);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    }
+    
   return (
     <li className="grocery-item">
       <label 
@@ -77,6 +99,13 @@ function GroceryItem({ itemMap, dispatch, viewMode }) {
       >
         {itemMap.name}
       </label>
+      {viewMode === "all" && <label 
+        className="item-date"
+      >
+        {formatDate(new Date(itemMap.date))} 
+      </label>
+      }
+
       {isUpdateMode && (
         <input
           className="edit-input"
