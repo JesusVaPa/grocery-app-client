@@ -25,8 +25,8 @@ function SearchBar({ dispatch, setViewMode, setFilterText }) {
     setViewMode(newView); 
   };
 
-  const handleFilterChange = (e) => {
-    setFilterText(e.target.value); 
+  const handleFilterChange = (event) => {
+    setFilterText(event.target.value); 
   };
 
   const resetFields = () => {
@@ -42,7 +42,7 @@ function SearchBar({ dispatch, setViewMode, setFilterText }) {
           type="text"
           placeholder="What would you like to buy?"
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={(event) => setInputValue(event.target.value)}
           onKeyDown={handleKeyDown} 
         />       
       </div>

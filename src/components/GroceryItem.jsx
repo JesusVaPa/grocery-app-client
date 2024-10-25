@@ -65,25 +65,7 @@ function GroceryItem({ itemMap, dispatch, viewMode }) {
   }
 
   function handleDateChange(date) {
-    let item_id;
-
-    setSelectedDate(date);
-
-    httpReq('post', '/item/update/' + item_id, { date: selectedDate })
-      .then(() => {
-        dispatch({
-          type: 'update',
-          body: {
-            id: item_id,
-            date: selectedDate,
-          },
-        });
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-    setIsUpdateMode(false);
+    setSelectedDate(date);  
     setIsCalendarOpen(false);
   }
 
