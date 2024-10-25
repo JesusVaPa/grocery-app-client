@@ -2,8 +2,9 @@
 import { useState } from "react";
 import httpReq from '../utils/httpReq';
 import DatePickerWidget from '../utils/DatePickerWidget.jsx'; 
-import '../css/GroceryItem.css'; 
-function GroceryItem({ itemMap, dispatch }) {
+import '../CSS/GroceryItem.css'; 
+
+function GroceryItem({ itemMap, dispatch, viewMode }) {
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date(itemMap.date)); 
@@ -17,11 +18,9 @@ function GroceryItem({ itemMap, dispatch }) {
   }
 
   function handleKeyDown(event) {
-    let 
-      key_name = event.key,
-      input_value, 
-      item_id
-    ;
+    let key_name = event.key,
+      input_value,
+      item_id;
 
     if (key_name === 'Enter') {
       input_value = event.target.value;
@@ -43,7 +42,7 @@ function GroceryItem({ itemMap, dispatch }) {
         });
 
       setIsUpdateMode(false);
-      setIsCalendarOpen(false); 
+      setIsCalendarOpen(false);
     }
   }
 
@@ -68,24 +67,24 @@ function GroceryItem({ itemMap, dispatch }) {
   function handleDateChange(date) {
     let item_id;
 
-    setSelectedDate(date); 
+    setSelectedDate(date);
 
     httpReq('post', '/item/update/' + item_id, { date: selectedDate })
-        .then(() => {
-          dispatch({
-            type: 'update',
-            body: {
-              id: item_id,
-              date: selectedDate,
-            },
-          });
-        })
-        .catch(error => {
-          console.error(error);
+      .then(() => {
+        dispatch({
+          type: 'update',
+          body: {
+            id: item_id,
+            date: selectedDate,
+          },
         });
+      })
+      .catch(error => {
+        console.error(error);
+      });
 
-      setIsUpdateMode(false);
-      setIsCalendarOpen(false); 
+    setIsUpdateMode(false);
+    setIsCalendarOpen(false);
   }
 
   return (
@@ -105,14 +104,16 @@ function GroceryItem({ itemMap, dispatch }) {
           autoFocus
         />
       )}
-      <div className="calendar-container">
-        <DatePickerWidget
-          selectedDate={selectedDate}
-          onChange={handleDateChange}
-          isOpen={isCalendarOpen} 
-          toggleCalendar={toggleCalendar}
-        />
-      </div>
+      {viewMode === 'byDate' && (
+        <div className="calendar-container">
+          <DatePickerWidget
+            selectedDate={selectedDate}
+            onChange={handleDateChange}
+            isOpen={isCalendarOpen} 
+            toggleCalendar={toggleCalendar}
+          />
+        </div>
+      )}
       <button
         className="remove-btn"
         onClick={handleClickRemove}
