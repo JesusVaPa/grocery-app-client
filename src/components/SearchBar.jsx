@@ -4,7 +4,7 @@ import httpReq from '../utils/httpReq';
 import DatePickerComponent from '../utils/DatePickerWidget.jsx';
 
 // eslint-disable-next-line react/prop-types
-function SearchBar({ dispatch, setViewMode }) {
+function SearchBar({ dispatch, setViewMode, setFilterText }) {
   const [inputValue, setInputValue] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -27,43 +27,50 @@ function SearchBar({ dispatch, setViewMode }) {
     setViewMode(newView); 
   };
 
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+    setFilterText(value);  
+  };
+
   const resetFields = () => {
     setInputValue('');
     setSelectedDate(new Date());
   };
 
   return (
-    <><div className="search-bar-container">
-      <input
-        className="search-bar"
-        type="text"
-        placeholder="What would you like to buy?"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        onKeyDown={handleKeyDown} />
-      <div className="date-picker-wrapper">
-        <span className="date-label">And when?...</span>
-        <DatePickerComponent
-          selectedDate={selectedDate}
-          onChange={setSelectedDate}
-          isOpen={isCalendarOpen}
-          toggleCalendar={() => setIsCalendarOpen(!isCalendarOpen)} />
-        {selectedDate && (
-          <span className="date-selected">
-            {selectedDate.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}
-          </span>
-        )}
+    <>
+      <div className="search-bar-container">
+        <input
+          className="search-bar"
+          type="text"
+          placeholder="What would you like to buy or filter?"
+          value={inputValue}
+          onChange={handleInputChange}  
+          onKeyDown={handleKeyDown} 
+        />
+        <div className="date-picker-wrapper">
+          <span className="date-label">And when?...</span>
+          <DatePickerComponent
+            selectedDate={selectedDate}
+            onChange={setSelectedDate}
+            isOpen={isCalendarOpen}
+            toggleCalendar={() => setIsCalendarOpen(!isCalendarOpen)} />
+          {selectedDate && (
+            <span className="date-selected">
+              {selectedDate.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+            </span>
+          )}
+        </div>
       </div>
-
-    </div>
-    <div className="view-selector">
-      <label htmlFor="view">View:</label>
-      <select id="view" value={viewOption} onChange={handleViewChange}>
-        <option value="all">All Items</option>
-        <option value="byDate">By Date</option>
-      </select>
-    </div></>
-    
+      <div className="view-selector">
+        <label htmlFor="view">View:</label>
+        <select id="view" value={viewOption} onChange={handleViewChange}>
+          <option value="all">All Items</option>
+          <option value="byDate">By Date</option>
+        </select>
+      </div>
+    </>
   );
 }
 
