@@ -8,7 +8,8 @@ import GroceryList from './components/GroceryList';
 function App() {
   const [itemList, dispatch] = useReducer(reducer, []);
   const [viewMode, setViewMode] = useState('byDate'); 
-  const [filterText, setFilterText] = useState(''); 
+  const [filterText, setFilterText] = useState('');
+  const [sortOrder, setSortOrder] = useState('ascending'); 
 
   useEffect(() => {
     httpReq('get', '/item/list')
@@ -17,7 +18,16 @@ function App() {
       });
   }, []);
 
-  const filteredItems = itemList.filter(item =>
+  const sortItems = (items) => {
+    return [...items].sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return sortOrder === 'ascending' ? dateA - dateB : dateB - dateA;
+    });
+  };
+
+  const sortedItems = sortItems(itemList);
+  const filteredItems = sortedItems.filter(item =>
     item.name.toLowerCase().includes(filterText.toLowerCase())
   );
 
@@ -27,9 +37,14 @@ function App() {
       <SearchBar 
         dispatch={dispatch} 
         setViewMode={setViewMode} 
-        setFilterText={setFilterText} 
+        setFilterText={setFilterText}
+        setSortOrder={setSortOrder} 
       />
-      
+      {viewMode === 'byDate' && (<div className="sort-buttons">
+        <button onClick={() => setSortOrder('ascending')}>Sort Ascending</button>
+        <button onClick={() => setSortOrder('descending')}>Sort Descending</button>
+      </div>)}
+
       {filteredItems.length > 0 && (
         <GroceryList
           itemList={filteredItems}
