@@ -2,7 +2,6 @@
 import GroceryItem from './GroceryItem';
 import '../css/GroceryList.css';
 
-// eslint-disable-next-line react/prop-types
 function GroceryList({ itemList, dispatch, viewMode }) { 
 
   const groupByDate = (items) => {
@@ -21,7 +20,6 @@ function GroceryList({ itemList, dispatch, viewMode }) {
   return (
     <>
       {viewMode === 'byDate' ? (
-        // Modo "By Date"
         Object.keys(groupedItems).map(date => (
           <section key={date} className="grocery-section">
             <h2 className="section-heading">{date}</h2>
