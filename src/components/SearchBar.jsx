@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import '../css/SearchBar.css';
 import httpReq from '../utils/httpReq';
-import DatePickerComponent from '../utils/DatePickerWidget.jsx';
 
 // eslint-disable-next-line react/prop-types
 function SearchBar({ dispatch, setViewMode, setFilterText }) {
   const [inputValue, setInputValue] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [viewOption, setViewOption] = useState('byDate');
 
   const handleKeyDown = (event) => {
@@ -27,10 +25,8 @@ function SearchBar({ dispatch, setViewMode, setFilterText }) {
     setViewMode(newView); 
   };
 
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setInputValue(value);
-    setFilterText(value);  
+  const handleFilterChange = (e) => {
+    setFilterText(e.target.value); 
   };
 
   const resetFields = () => {
@@ -44,24 +40,11 @@ function SearchBar({ dispatch, setViewMode, setFilterText }) {
         <input
           className="search-bar"
           type="text"
-          placeholder="What would you like to buy or filter?"
+          placeholder="What would you like to buy?"
           value={inputValue}
-          onChange={handleInputChange}  
+          onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown} 
-        />
-        <div className="date-picker-wrapper">
-          <span className="date-label">And when?...</span>
-          <DatePickerComponent
-            selectedDate={selectedDate}
-            onChange={setSelectedDate}
-            isOpen={isCalendarOpen}
-            toggleCalendar={() => setIsCalendarOpen(!isCalendarOpen)} />
-          {selectedDate && (
-            <span className="date-selected">
-              {selectedDate.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}
-            </span>
-          )}
-        </div>
+        />       
       </div>
       <div className="view-selector">
         <label htmlFor="view">View:</label>
@@ -69,6 +52,12 @@ function SearchBar({ dispatch, setViewMode, setFilterText }) {
           <option value="all">All Items</option>
           <option value="byDate">By Date</option>
         </select>
+        <input
+          type="text"
+          placeholder="Filter items..."
+          onChange={handleFilterChange}
+          className="filter-input"
+        />
       </div>
     </>
   );

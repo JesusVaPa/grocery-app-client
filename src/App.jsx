@@ -8,7 +8,7 @@ import GroceryList from './components/GroceryList';
 function App() {
   const [itemList, dispatch] = useReducer(reducer, []);
   const [viewMode, setViewMode] = useState('byDate'); 
-  const [filterText, setFilterText] = useState('');  
+  const [filterText, setFilterText] = useState(''); 
 
   useEffect(() => {
     httpReq('get', '/item/list')
@@ -17,21 +17,24 @@ function App() {
       });
   }, []);
 
+  const filteredItems = itemList.filter(item =>
+    item.name.toLowerCase().includes(filterText.toLowerCase())
+  );
+
   return (
     <>
       <h1>My Grocery App</h1>
       <SearchBar 
         dispatch={dispatch} 
         setViewMode={setViewMode} 
-        setFilterText={setFilterText}  
-      /> 
+        setFilterText={setFilterText} 
+      />
       
-      {itemList.length > 0 && (
+      {filteredItems.length > 0 && (
         <GroceryList
-          itemList={itemList}
+          itemList={filteredItems}
           dispatch={dispatch}
           viewMode={viewMode} 
-          filterText={filterText}   
         />
       )}
     </>
