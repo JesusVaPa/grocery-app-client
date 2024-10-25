@@ -8,6 +8,7 @@ import GroceryList from './components/GroceryList';
 function App() {
   const [itemList, dispatch] = useReducer(reducer, []);
   const [viewMode, setViewMode] = useState('byDate'); 
+  const [filterText, setFilterText] = useState('');  
 
   useEffect(() => {
     httpReq('get', '/item/list')
@@ -19,13 +20,18 @@ function App() {
   return (
     <>
       <h1>My Grocery App</h1>
-      <SearchBar dispatch={dispatch} setViewMode={setViewMode} /> 
+      <SearchBar 
+        dispatch={dispatch} 
+        setViewMode={setViewMode} 
+        setFilterText={setFilterText}  
+      /> 
       
       {itemList.length > 0 && (
         <GroceryList
           itemList={itemList}
           dispatch={dispatch}
           viewMode={viewMode} 
+          filterText={filterText}   
         />
       )}
     </>
