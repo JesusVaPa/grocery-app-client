@@ -27,13 +27,14 @@ function GroceryItem({ itemMap, dispatch, viewMode }) {
       input_value = event.target.value;
       item_id = itemMap.id;
 
-      httpReq('post', '/item/update/' + item_id, { name: input_value })
+      httpReq('post', '/item/update/' + item_id, { name: input_value, date: selectedDate })
         .then(() => {
           dispatch({
             type: 'update',
             body: {
               id: item_id,
               name: input_value,
+              date: selectedDate
             },
           });          
         })
@@ -73,7 +74,7 @@ function GroceryItem({ itemMap, dispatch, viewMode }) {
     const item_id = itemMap.id;
     const formattedDate = date.toISOString().split('T')[0];
 
-    httpReq('post', '/item/update/' + item_id, { date: formattedDate })
+    httpReq('post', '/item/update/' + item_id, { name: currentName, date: selectedDate })
       .then(() => {
         dispatch({
           type: 'update',
